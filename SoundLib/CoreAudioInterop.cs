@@ -2,7 +2,7 @@
 
 namespace SoundLib
 {
-    internal class CoreAudioInterop
+    public class CoreAudioInterop
     {
         [Guid("5CDF2C82-841E-4546-9722-0CF74078229A"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         internal interface IAudioEndpointVolume

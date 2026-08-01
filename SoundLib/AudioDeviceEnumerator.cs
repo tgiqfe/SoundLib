@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SoundLib
 {
-    internal class AudioDeviceEnumerator : IDisposable
+    public class AudioDeviceEnumerator : IDisposable
     {
         private CoreAudioInterop.IMMDeviceEnumerator? _enumerator;
 

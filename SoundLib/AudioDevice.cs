@@ -2,7 +2,7 @@
 
 namespace SoundLib
 {
-    internal class AudioDevice : IDisposable
+    public class AudioDevice : IDisposable
     {
         private CoreAudioInterop.IMMDevice? _device;
 

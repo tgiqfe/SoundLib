@@ -1,6 +1,6 @@
 ﻿namespace SoundLib
 {
-    internal class AudioFormatInfo
+    public class AudioFormatInfo
     {
         public uint SampleRate { get; set; }
         public ushort BitsPerSample { get; set; }
