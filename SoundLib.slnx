@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="SoundLib.Cmd/SoundLib.Cmd.csproj" />
+  <Project Path="SoundLib.Pwsh/SoundLib.Pwsh.csproj" Id="17aa86cb-9c32-4bf8-9b37-f1f8c8e595cb" />
   <Project Path="SoundLib/SoundLib.csproj" />
 </Solution>

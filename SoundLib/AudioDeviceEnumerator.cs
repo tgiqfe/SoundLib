@@ -122,7 +122,7 @@ namespace SoundLib
             {
                 if (_enumerator != null)
                 {
-                    Marsal.ReleaseComObject(_enumerator);
+                    Marshal.ReleaseComObject(_enumerator);
                     _enumerator = null;
                 }
                 _disposed = true;
@@ -132,3 +132,4 @@ namespace SoundLib
         #endregion
         }
     }
+}
