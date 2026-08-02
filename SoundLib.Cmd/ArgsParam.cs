@@ -12,6 +12,7 @@ namespace SoundLib.Cmd
         public SubCommand SubCommand { get; set; }
 
         public bool IsList { get; set; }
+        public bool SetDefault { get; set; }
         public string Name { get; set; }
         public bool? IsMute { get; set; }
         public int SetLevel { get; set; }
@@ -38,6 +39,12 @@ namespace SoundLib.Cmd
                     case "/list":
                     case "--list":
                         this.IsList = true;
+                        break;
+                    case "/d":
+                    case "-d":
+                    case "/default":
+                    case "--default":
+                        this.SetDefault = true;
                         break;
                     case "/n":
                     case "-n":
