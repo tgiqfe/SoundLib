@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoundLib
+namespace SoundLib.Core
 {
     public class AudioDeviceEnumerator : IDisposable
     {

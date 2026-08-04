@@ -1,4 +1,4 @@
-﻿namespace SoundLib
+﻿namespace SoundLib.Core
 {
     public class AudioFormatInfo
     {

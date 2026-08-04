@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SoundLib
+namespace SoundLib.Core
 {
     public class AudioDevice : IDisposable
     {

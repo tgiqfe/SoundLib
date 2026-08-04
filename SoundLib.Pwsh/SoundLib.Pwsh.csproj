@@ -3,19 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Management.Automation" Version="7.4.18">
-      <PrivateAssets>all</PrivateAssets>
-      <ExcludeAssets>runtime</ExcludeAssets>
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="System.Management.Automation" Version="7.4.18" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoundLib\SoundLib.csproj" />
+    <ProjectReference Include="..\SoundLib.Core\SoundLib.Core.csproj" />
   </ItemGroup>
 
 </Project>

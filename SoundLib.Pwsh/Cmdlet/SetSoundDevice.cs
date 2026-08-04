@@ -1,4 +1,5 @@
-﻿using SoundLib.Pwsh.Lib;
+﻿using SoundLib.Core;
+using SoundLib.Pwsh.Lib;
 using System.Management.Automation;
 
 namespace SoundLib.Pwsh.Cmdlet
