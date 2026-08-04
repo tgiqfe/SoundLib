@@ -29,9 +29,19 @@ namespace SoundLib.Cmd.Lib
             "true", "yes", "on", "enable", "enabled", "1",
         };
 
+        private static string[] candidate_disable = new string[]
+        {
+            "false", "no", "off", "disable", "disabled", "0",
+        };
+
         public static bool IsTrue(string text)
         {
             return candidate_enable.Any(x => x.Equals(text, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static bool IsFalse(string text)
+        {
+            return candidate_disable.Any(x => x.Equals(text, StringComparison.OrdinalIgnoreCase));
         }
 
     }

@@ -1,9 +1,4 @@
 ﻿using SoundLib.Cmd.Lib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoundLib.Cmd
 {
@@ -11,12 +6,10 @@ namespace SoundLib.Cmd
     {
         public SubCommand SubCommand { get; set; }
 
-        public bool IsList { get; set; }
         public bool SetDefault { get; set; }
         public string Name { get; set; }
         public bool? IsMute { get; set; }
-        public int SetLevel { get; set; }
-        public int IncreseLevel { get; set; }
+        public string SetLevel { get; set; }
 
         public ArgsParam(string[] args)
         {
@@ -34,12 +27,6 @@ namespace SoundLib.Cmd
             {
                 switch (args[i].ToLower())
                 {
-                    case "/l":
-                    case "-l":
-                    case "/list":
-                    case "--list":
-                        this.IsList = true;
-                        break;
                     case "/d":
                     case "-d":
                     case "/default":
@@ -61,30 +48,19 @@ namespace SoundLib.Cmd
                     case "--mute":
                         if (i + 1 < args.Length)
                         {
-                            this.IsMute = TextFunctions.IsTrue(args[++i]);
+                            string text = args[++i];
+                            this.IsMute = TextFunctions.IsTrue(text) ? true :
+                                TextFunctions.IsFalse(text) ? false :
+                                null;
                         }
                         break;
                     case "/v":
                     case "-v":
-                    case "/volume":
-                    case "--volume":
+                    case "/level":
+                    case "--level":
                         if (i + 1 < args.Length)
                         {
-                            string levelText = args[++i];
-                            if (int.TryParse(levelText, out int volume))
-                            {
-                                this.SetLevel = volume;
-                            }
-                            else
-                            {
-                                if (levelText.StartsWith("+") || levelText.StartsWith("-"))
-                                {
-                                    if (int.TryParse(levelText, out int increaseVolume))
-                                    {
-                                        this.IncreseLevel = increaseVolume;
-                                    }
-                                }
-                            }
+                            this.SetLevel = args[++i];
                         }
                         break;
                 }

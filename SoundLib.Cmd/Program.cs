@@ -5,16 +5,27 @@ var ap = new ArgsParam(args);
 switch (ap.SubCommand)
 {
     case SubCommand.Device:
-        if (ap.IsList)
+        var soundDevice = new SoundDeviceProcess();
+        if (ap.SetDefault)
         {
-            SoundDeviceProcess.ListDevices(ap);
+            soundDevice.SetDefaultDevice(ap);
         }
-        else if (ap.SetDefault)
+        else
         {
-            SoundDeviceProcess.SetDefaultDevice(ap);
+            soundDevice.ListDevices(ap);
         }
         break;
     case SubCommand.Volume:
+        var soundVolume = new SoundVolumeProcess();
+        if (ap.IsMute != null || !string.IsNullOrEmpty(ap.SetLevel))
+        {
+            soundVolume.SetVolume(ap);
+
+        }
+        else
+        {
+            soundVolume.GetVolume(ap);
+        }
         break;
 }
 

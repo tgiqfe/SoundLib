@@ -1,15 +1,16 @@
 ﻿using SoundLib.Cmd.Lib;
 using SoundLib.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SoundLib.Cmd
 {
     internal class SoundDeviceProcess
     {
-        /// <summary>
-        /// List up sound devices.
-        /// </summary>
-        /// <param name="ap"></param>
-        public static void ListDevices(ArgsParam ap)
+        public void ListDevices(ArgsParam ap)
         {
             using (var enumerator = new AudioDeviceEnumerator())
             {
@@ -63,7 +64,7 @@ namespace SoundLib.Cmd
             }
         }
 
-        public static void SetDefaultDevice(ArgsParam ap)
+        public void SetDefaultDevice(ArgsParam ap)
         {
             using (var enumerator = new AudioDeviceEnumerator())
             {
@@ -121,7 +122,7 @@ namespace SoundLib.Cmd
             }
         }
 
-        private static void Print(AudioDevice device, bool isDefault)
+        private void Print(AudioDevice device, bool isDefault)
         {
             Console.WriteLine(device.FriendlyName);
             Console.WriteLine("  Default     : " + (isDefault ? "Yes" : "No"));
