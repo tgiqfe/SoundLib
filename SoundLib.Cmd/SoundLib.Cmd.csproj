@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>soundlib</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
