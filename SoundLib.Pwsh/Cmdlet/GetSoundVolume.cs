@@ -1,11 +1,6 @@
-﻿using SoundLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SoundLib.Pwsh.Lib;
 using System.Management.Automation;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoundLib.Pwsh.Cmdlet
 {
@@ -16,28 +11,29 @@ namespace SoundLib.Pwsh.Cmdlet
 
         #endregion
 
-        protected override void ProcessRecord()
+        private CoreAudioInterop.IAudioEndpointVolume _aev = null;
+
+        protected override void BeginProcessing()
         {
-            CoreAudioInterop.IMMDeviceEnumerator enumerator = new CoreAudioInterop.MMDeviceEnumeratorComObject() as CoreAudioInterop.IMMDeviceEnumerator;
+            CoreAudioInterop.IMMDeviceEnumerator enumerator =
+                new CoreAudioInterop.MMDeviceEnumeratorComObject() as CoreAudioInterop.IMMDeviceEnumerator;
             CoreAudioInterop.IMMDevice dev = null;
             Marshal.ThrowExceptionForHR(enumerator.GetDefaultAudioEndpoint(
                     CoreAudioInterop.DataFlow.Render,
                     CoreAudioInterop.Role.Multimedia,
                     out dev));
-            CoreAudioInterop.IAudioEndpointVolume vol = null;
             Guid epvid = typeof(CoreAudioInterop.IAudioEndpointVolume).GUID;
-            //Marshal.ThrowExceptionForHR(dev.Activate(ref epvid, 23, 0, out vol));
-
-
-
-
-
-
-            CoreAudioInterop.IAudioEndpointVolume Vol = null;
-
-
-
+            nint aevPtr;
+            Marshal.ThrowExceptionForHR(dev.Activate(ref epvid, 23, 0, out aevPtr));
+            _aev = (CoreAudioInterop.IAudioEndpointVolume)Marshal.GetObjectForIUnknown(aevPtr);
+            Marshal.Release(aevPtr);
         }
 
+        protected override void ProcessRecord()
+        {
+            Marshal.ThrowExceptionForHR(_aev.GetMasterVolumeLevelScalar(out float level));
+            Marshal.ThrowExceptionForHR(_aev.GetMute(out bool mute));
+            WriteObject(new SoundVolume((int)(level * 100), mute));
+        }
     }
 }
