@@ -8,5 +8,16 @@ namespace SoundLib.Cmd
 {
     internal class SoundVolumeProcess
     {
+        public static void GetVolume(ArgsParam ap)
+        {
+
+        }
+
+        public static void SetVolume(ArgsParam ap)
+        {
+
+        }
+
+        
     }
 }

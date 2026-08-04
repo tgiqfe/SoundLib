@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoundLib.Cmd.Lib;
 
 namespace SoundLib.Cmd
 {
     internal class SoundDeviceProcess
     {
-        public static void ListDevices()
+        /// <summary>
+        /// List up sound devices.
+        /// </summary>
+        /// <param name="ap"></param>
+        public static void ListDevices(ArgsParam ap)
         {
             using (var enumerator = new AudioDeviceEnumerator())
             {
@@ -24,13 +24,37 @@ namespace SoundLib.Cmd
                     CoreAudioInterop.DataFlow.Render,
                     CoreAudioInterop.Role.Multimedia);
 
-                foreach (var device in devices)
+                if (string.IsNullOrEmpty(ap.Name))
                 {
-                    Console.WriteLine(device.FriendlyName);
-                    Console.WriteLine("  Default     : " + (device.Id == defaultDevice?.Id ? "Yes" : "No"));
-                    Console.WriteLine("  State       : " + device.State);
-                    Console.WriteLine("  ID          : " + device.Id);
-                    Console.WriteLine("  Description : " + device.DeviceDescription);
+                    //  全件表示
+                    devices.ForEach(x => Print(x, x.Id == defaultDevice?.Id));
+                }
+                else if (ap.Name.Contains("*"))
+                {
+                    //  名前指定&ワイルドカード対応
+                    var regex = TextFunctions.WildcardMatch(ap.Name);
+                    var matchDevice = devices.FirstOrDefault(x => regex.IsMatch(x.FriendlyName));
+                    if (matchDevice != null)
+                    {
+                        Print(matchDevice, matchDevice.Id == defaultDevice?.Id);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Device '{ap.Name}' not found.");
+                    }
+                }
+                else
+                {
+                    //  名前指定のみ
+                    var matchDevice = devices.FirstOrDefault(x => x.FriendlyName.Equals(ap.Name, StringComparison.OrdinalIgnoreCase));
+                    if (matchDevice != null)
+                    {
+                        Print(matchDevice, matchDevice.Id == defaultDevice?.Id);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Device '{ap.Name}' not found.");
+                    }
                 }
 
                 devices.ForEach(x => x.Dispose());
@@ -38,9 +62,8 @@ namespace SoundLib.Cmd
             }
         }
 
-        public static void SetDefaultDevice(string deviceName)
+        public static void SetDefaultDevice(ArgsParam ap)
         {
-            /*
             using (var enumerator = new AudioDeviceEnumerator())
             {
                 var devices = enumerator.EnumerateAudioEndpoints(
@@ -51,16 +74,59 @@ namespace SoundLib.Cmd
                     Console.WriteLine("No active audio devices found.");
                     return;
                 }
-                var deviceToSet = devices.FirstOrDefault(x => x.FriendlyName.Equals(deviceName, StringComparison.OrdinalIgnoreCase));
-                if (deviceToSet == null)
+                var defaultDevice = enumerator.GetDefaultAudioEndpoint(
+                    CoreAudioInterop.DataFlow.Render,
+                    CoreAudioInterop.Role.Multimedia);
+
+                if (string.IsNullOrEmpty(ap.Name))
                 {
-                    Console.WriteLine($"Device '{deviceName}' not found.");
+                    Console.WriteLine("Please specify a device name to set as default.");
                     return;
                 }
-                enumerator.SetDefaultAudioEndpoint(deviceToSet.Id, CoreAudioInterop.Role.Multimedia);
-                Console.WriteLine($"Device '{deviceName}' set as default.");
+                else if (ap.Name.Contains("*"))
+                {
+                    //  名前指定&ワイルドカード対応
+                    var regex = TextFunctions.WildcardMatch(ap.Name);
+                    var matchDevice = devices.FirstOrDefault(x => regex.IsMatch(x.FriendlyName));
+                    if (matchDevice != null && matchDevice.Id != defaultDevice?.Id)
+                    {
+                        enumerator.SetDefaultDevice(matchDevice.Id);
+                        Console.WriteLine($"Device '{matchDevice.FriendlyName}' set as default.");
+                        Print(matchDevice, true);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Device '{ap.Name}' not found or already set as default.");
+                    }
+                }
+                else
+                {
+                    //  名前指定のみ
+                    var matchDevice = devices.FirstOrDefault(x => x.FriendlyName.Equals(ap.Name, StringComparison.OrdinalIgnoreCase));
+                    if (matchDevice != null && matchDevice.Id != defaultDevice?.Id)
+                    {
+                        enumerator.SetDefaultDevice(matchDevice.Id);
+                        Console.WriteLine($"Device '{matchDevice.FriendlyName}' set as default.");
+                        Print(matchDevice, true);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Device '{ap.Name}' not found or already set as default.");
+                    }
+                }
+
+                devices.ForEach(x => x.Dispose());
+                defaultDevice.Dispose();
             }
-            */
+        }
+
+        private static void Print(AudioDevice device, bool isDefault)
+        {
+            Console.WriteLine(device.FriendlyName);
+            Console.WriteLine("  Default     : " + (isDefault ? "Yes" : "No"));
+            Console.WriteLine("  State       : " + device.State);
+            Console.WriteLine("  ID          : " + device.Id);
+            Console.WriteLine("  Description : " + device.DeviceDescription);
         }
     }
 }

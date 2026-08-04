@@ -7,11 +7,11 @@ switch (ap.SubCommand)
     case SubCommand.Device:
         if (ap.IsList)
         {
-            SoundDeviceProcess.ListDevices();
+            SoundDeviceProcess.ListDevices(ap);
         }
-        else if (ap.SetDefault && !string.IsNullOrEmpty(ap.Name))
+        else if (ap.SetDefault)
         {
-            SoundDeviceProcess.SetDefaultDevice(ap.Name);
+            SoundDeviceProcess.SetDefaultDevice(ap);
         }
         break;
     case SubCommand.Volume:
