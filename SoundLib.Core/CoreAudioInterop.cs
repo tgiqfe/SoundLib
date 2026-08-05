@@ -43,9 +43,9 @@ namespace SoundLib.Core
         // デバイスロール
         public enum Role
         {
-            Console = 0,
-            Multimedia = 1,
-            Communications = 2
+            Console = 0,        // システムの通知音など
+            Multimedia = 1,     // オーディオの既定として使用する
+            Communications = 2  // 通信の既定として使用する
         }
 
         // PROPERTYKEY構造体

@@ -10,6 +10,10 @@ namespace SoundLib.Cmd
 {
     internal class SoundDeviceProcess
     {
+        /// <summary>
+        /// デバイス情報を出力
+        /// </summary>
+        /// <param name="ap"></param>
         public void ListDevices(ArgsParam ap)
         {
             using (var enumerator = new AudioDeviceEnumerator())
@@ -64,6 +68,10 @@ namespace SoundLib.Cmd
             }
         }
 
+        /// <summary>
+        /// デフォルトデバイスを設定
+        /// </summary>
+        /// <param name="ap"></param>
         public void SetDefaultDevice(ArgsParam ap)
         {
             using (var enumerator = new AudioDeviceEnumerator())
